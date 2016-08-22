@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -138,6 +140,25 @@ public class Utils {
         }
 
         return 0;
+    }
+
+    public int putMarker(String mark,String filename) {
+        PrintWriter outStream = null;
+        try{
+            FileOutputStream fos = new FileOutputStream("/sys/kernel/debug/tracing/" + filename);
+            outStream = new PrintWriter(new OutputStreamWriter(fos));
+            outStream.println(mark);
+            outStream.flush();
+        }
+        catch(Exception e) {
+            return 1;
+        }
+        finally {
+            if (outStream != null) {
+                outStream.close();
+            }
+            return 0;
+        }
     }
 
 }

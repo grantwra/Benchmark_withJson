@@ -34,16 +34,23 @@ public class Queries {
 
     public int startQueries(){
 
+        utils.putMarker("{\"EVENT\":\"TESTBENCHMARK\"}", "trace_marker");
+
+        utils.putMarker("START: App started\n", "trace_marker");
+        utils.putMarker("{\"EVENT\":\"SQL_START\"}", "trace_marker");
         int tester = sqlQueries();
         if(tester != 0){
             return 1;
         }
+        utils.putMarker("{\"EVENT\":\"SQL_END\"}", "trace_marker");
 
+        utils.putMarker("{\"EVENT\":\"BDB_START\"}", "trace_marker");
         tester = bdbQueries();
         if (tester != 0){
             return 1;
         }
-
+        utils.putMarker("{\"EVENT\":\"BDB_END\"}", "trace_marker");
+        utils.putMarker("END: app finished\n", "trace_marker");
         return 0;
     }
 
@@ -62,10 +69,25 @@ public class Queries {
                     case "query": {
                         Object queryObject = operationJson.get("sql");
                         String query = queryObject.toString();
+                        String queryType = "NULL";
+                        if(query.contains("SELECT")){
+                            queryType = "SELECT";
+                        }
+                        else if(query.contains("UPDATE")){
+                            queryType = "UPDATE";
+                        }
+                        else if(query.contains("INSERT")){
+                            queryType = "INSERT";
+                        }
+                        else if(query.contains("DELETE")){
+                            queryType = "DELETE";
+                        }
 
                         try {
 
+                            //utils.putMarker("{\"EVENT\":\" " +queryType+  "_START\"}\n","trace_marker");
                             db.execSQL(query);
+                            //utils.putMarker("{\"EVENT\":\" " +queryType+  "_END\"}\n","trace_marker");
 
                             File file = new File("/data/data/com.example.benchmark_withjson/files/testSQL");
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);
@@ -74,6 +96,7 @@ public class Queries {
 
                         }
                         catch (SQLiteException e){
+                            //utils.putMarker("{\"EVENT\":\" " +queryType+  "_END\"}\n","trace_marker");
                             sqlException = 1;
                             continue;
                         }
@@ -135,6 +158,9 @@ public class Queries {
                         String query = queryObject.toString();
 
                         try {
+
+
+
                             stmt = con.createStatement();
                             stmt.execute(query);
                             stmt.close();
