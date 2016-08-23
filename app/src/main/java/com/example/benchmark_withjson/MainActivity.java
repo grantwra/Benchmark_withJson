@@ -43,10 +43,11 @@ public class MainActivity extends AppCompatActivity {
         if(tester2 != 0){
             this.finishAffinity();
         }
-
+        /*
         long end = System.currentTimeMillis();
         long delta = end - start;
         double elapsedSeconds = delta / 1000.0;
+
 
         File file = new File("/data/data/com.example.benchmark_withjson/files/time");
         FileOutputStream fos = null;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
+        this.finishAffinity();
 
 
     }
