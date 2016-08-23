@@ -13,7 +13,7 @@ echo 1 > $trace_dir/tracing_on
 
 #am kill-all
 am start -n com.example.benchmark_withjson/com.example.benchmark_withjson.MainActivity
-sleep 70
+sleep 4000
 
 echo 0 > $trace_dir/tracing_on
 cat $trace_dir/trace > /data/trace.log

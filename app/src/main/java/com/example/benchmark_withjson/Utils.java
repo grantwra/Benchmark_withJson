@@ -1,7 +1,6 @@
 package com.example.benchmark_withjson;
 
 import android.content.Context;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -9,6 +8,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -21,13 +22,16 @@ public class Utils {
 
     static JSONObject workloadJsonObject;
 
-    public String jsonToString(String filename){
+    public String jsonToString(Context context){
 
         String line;
         String finalString = "";
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(filename));
+
+            InputStream is = context.getResources().openRawResource(R.raw.workload_a_timing_a);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
             while((line = br.readLine()) != null){
                 if(!line.contains("sql")) {
                     line = line.replaceAll("\\s+", "");
@@ -157,8 +161,8 @@ public class Utils {
             if (outStream != null) {
                 outStream.close();
             }
-            return 0;
         }
+        return 0;
     }
 
 }

@@ -1,15 +1,11 @@
 package com.example.benchmark_withjson;
 
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteStatement;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,8 +13,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import SQLite.Database;
 
 public class Queries {
 
@@ -67,6 +61,7 @@ public class Queries {
                 String operation = operationObject.toString();
                 switch (operation) {
                     case "query": {
+                        sqlException = 0;
                         Object queryObject = operationJson.get("sql");
                         String query = queryObject.toString();
 
@@ -74,7 +69,7 @@ public class Queries {
 
                             db.execSQL(query);
 
-                            File file = new File("/data/data/com.example.benchmark_withjson/files/testSQL");
+                            File file = new File(context.getFilesDir().getPath() + "/testSQL");
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);
                             fos.write((query + "\n").getBytes());
                             fos.close();
@@ -89,10 +84,9 @@ public class Queries {
                     case "break": {
 
                         if(sqlException == 0) {
-                            Object breakObject = operationJson.get("delta");
-                            int breakTime = Integer.parseInt(breakObject.toString());
-
-                            int tester = utils.sleepThread(breakTime/*1*/);
+                            //Object breakObject = operationJson.get("delta");
+                            //int breakTime = Integer.parseInt(breakObject.toString());
+                            int tester = utils.sleepThread(/*breakTime*/1);
                             if(tester != 0){
                                 return 1;
                             }
@@ -138,19 +132,17 @@ public class Queries {
                 String operation = operationObject.toString();
                 switch (operation) {
                     case "query": {
+                        sqlException = 0;
                         Object queryObject = operationJson.get("sql");
                         String query = queryObject.toString();
 
                         try {
 
-
-
                             stmt = con.createStatement();
                             stmt.execute(query);
                             stmt.close();
 
-
-                            File file = new File("/data/data/com.example.benchmark_withjson/files/testBDB");
+                            File file = new File(context.getFilesDir().getPath() + "/testBDB");
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);
                             fos.write((query + "\n").getBytes());
                             fos.close();
@@ -169,9 +161,9 @@ public class Queries {
                     case "break": {
 
                         if(sqlException == 0) {
-                            Object breakObject = operationJson.get("delta");
-                            int breakTime = Integer.parseInt(breakObject.toString());
-                            int tester = utils.sleepThread(breakTime/*1*/);
+                            //Object breakObject = operationJson.get("delta");
+                            //int breakTime = Integer.parseInt(breakObject.toString());
+                            int tester = utils.sleepThread(/*breakTime*/1);
                             if(tester != 0){
                                 return 1;
                             }

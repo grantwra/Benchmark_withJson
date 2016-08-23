@@ -18,10 +18,10 @@ public class CreateDB {
         context = contextIn;
     }
 
-    public int create(String path){
+    public int create(){
 
         Utils utils = new Utils();
-        String singleJsonString = utils.jsonToString(path);
+        String singleJsonString = utils.jsonToString(context);
         JSONObject jsonObject = utils.jsonStringToObject(singleJsonString);
         int tester = populateSqlDb(jsonObject);
         if(tester != 0){
@@ -48,14 +48,12 @@ public class CreateDB {
                 Object sqlObject = obj2.get("sql");
                 String sqlStatement = sqlObject.toString() + "\n";
                 db.execSQL(sqlStatement);
-
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
             return 1;
         }
-
-
         return 0;
     }
 

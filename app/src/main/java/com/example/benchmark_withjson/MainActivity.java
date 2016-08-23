@@ -1,16 +1,9 @@
 package com.example.benchmark_withjson;
 
-
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.widget.Toast;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -24,44 +17,44 @@ public class MainActivity extends AppCompatActivity {
 
         long start = System.currentTimeMillis();
 
-        @SuppressLint("SdCardPath") String path = "/data/data/com.example.benchmark_withjson/files/workload_A_timing_A.json";
-
+        //Create the databases from the JSON
         CreateDB createDB = new CreateDB(this);
-        int tester = createDB.create(path);
+        int tester = createDB.create();
         if(tester != 0){
             this.finishAffinity();
         }
+
+        //Run the queries specified in the JSON on the newly created databases
         Queries queries = new Queries(this);
         tester = queries.startQueries();
         if (tester != 0){
             this.finishAffinity();
         }
 
-        //below method to find what queries are missing from SQL
+        //Find what queries were not executed successfully in the SQL or BDB traces
         Utils utils = new Utils();
         int tester2 = utils.findMissingQueries(this);
         if(tester2 != 0){
             this.finishAffinity();
         }
-        /*
+
+        //Calculate total time of the traces
         long end = System.currentTimeMillis();
         long delta = end - start;
         double elapsedSeconds = delta / 1000.0;
 
 
-        File file = new File("/data/data/com.example.benchmark_withjson/files/time");
-        FileOutputStream fos = null;
+        File file = new File(this.getFilesDir().getPath() + "/time");
+        FileOutputStream fos;
         try {
             fos = this.openFileOutput(file.getName(), Context.MODE_APPEND);
             fos.write((elapsedSeconds + "\n").getBytes());
             fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
-        this.finishAffinity();
+
+        //this.finishAffinity();
 
 
     }
