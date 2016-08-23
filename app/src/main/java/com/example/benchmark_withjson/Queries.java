@@ -84,9 +84,9 @@ public class Queries {
                     case "break": {
 
                         if(sqlException == 0) {
-                            //Object breakObject = operationJson.get("delta");
-                            //int breakTime = Integer.parseInt(breakObject.toString());
-                            int tester = utils.sleepThread(/*breakTime*/1);
+                            Object breakObject = operationJson.get("delta");
+                            int breakTime = Integer.parseInt(breakObject.toString());
+                            int tester = utils.sleepThread(breakTime);
                             if(tester != 0){
                                 return 1;
                             }
@@ -161,9 +161,9 @@ public class Queries {
                     case "break": {
 
                         if(sqlException == 0) {
-                            //Object breakObject = operationJson.get("delta");
-                            //int breakTime = Integer.parseInt(breakObject.toString());
-                            int tester = utils.sleepThread(/*breakTime*/1);
+                            Object breakObject = operationJson.get("delta");
+                            int breakTime = Integer.parseInt(breakObject.toString());
+                            int tester = utils.sleepThread(breakTime);
                             if(tester != 0){
                                 return 1;
                             }
