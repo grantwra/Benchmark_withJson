@@ -1,6 +1,7 @@
 package com.example.benchmark_withjson;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import org.json.JSONArray;
@@ -32,10 +33,12 @@ public class Queries {
 
         utils.putMarker("START: App started\n", "trace_marker");
         utils.putMarker("{\"EVENT\":\"SQL_START\"}", "trace_marker");
+
         int tester = sqlQueries();
         if(tester != 0){
             return 1;
         }
+
         utils.putMarker("{\"EVENT\":\"SQL_END\"}", "trace_marker");
 
         utils.putMarker("{\"EVENT\":\"BDB_START\"}", "trace_marker");
@@ -67,7 +70,13 @@ public class Queries {
 
                         try {
 
-                            db.execSQL(query);
+                            if(query.contains("SELECT")){
+                                Cursor cursor = db.rawQuery(query,null);
+                                cursor.close();
+                            }
+                            else {
+                                db.execSQL(query);
+                            }
 
                             File file = new File(context.getFilesDir().getPath() + "/testSQL");
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);
@@ -139,8 +148,12 @@ public class Queries {
                         try {
 
                             stmt = con.createStatement();
-                            stmt.execute(query);
+                            Boolean test = stmt.execute(query);
                             stmt.close();
+
+                            if (!test){
+                                throw new SQLiteException();
+                            }
 
                             File file = new File(context.getFilesDir().getPath() + "/testBDB");
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);

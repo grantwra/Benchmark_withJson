@@ -46,8 +46,9 @@ public class CreateDB {
             for (int i = 0; i < initArray.length(); i++){
                 JSONObject obj2 = initArray.getJSONObject(i);
                 Object sqlObject = obj2.get("sql");
-                String sqlStatement = sqlObject.toString() + "\n";
+                String sqlStatement = sqlObject.toString();
                 db.execSQL(sqlStatement);
+
             }
 
         } catch (JSONException e) {
@@ -68,7 +69,7 @@ public class CreateDB {
 
                 JSONObject obj2 = initArray.getJSONObject(i);
                 Object sqlObject = obj2.get("sql");
-                String sqlStatement = sqlObject.toString() + "\n";
+                String sqlStatement = sqlObject.toString();
                 stmt.execute(sqlStatement);
                 stmt.close();
 
