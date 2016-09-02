@@ -1,5 +1,6 @@
 trace_dir=/sys/kernel/debug/tracing
 
+sleep 15
 sync
 echo 3 > /proc/sys/vm/drop_caches
 
@@ -13,7 +14,7 @@ echo 1 > $trace_dir/tracing_on
 
 #am kill-all
 am start -n com.example.benchmark_withjson/com.example.benchmark_withjson.MainActivity
-sleep 4000
+#sleep 4000
 
 echo 0 > $trace_dir/tracing_on
 cat $trace_dir/trace > /data/trace.log

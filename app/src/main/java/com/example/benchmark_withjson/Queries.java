@@ -20,6 +20,8 @@ public class Queries {
     JSONObject workloadJsonObject;
     Context context;
     Utils utils;
+    Double SELECT;
+    Double UPDATE;
 
     public Queries(Context inContext){
         utils = new Utils();
@@ -42,12 +44,25 @@ public class Queries {
         utils.putMarker("{\"EVENT\":\"SQL_END\"}", "trace_marker");
 
         utils.putMarker("{\"EVENT\":\"BDB_START\"}", "trace_marker");
+
         tester = bdbQueries();
         if (tester != 0){
             return 1;
         }
+
         utils.putMarker("{\"EVENT\":\"BDB_END\"}", "trace_marker");
         utils.putMarker("END: app finished\n", "trace_marker");
+
+        try {
+            File file2 = new File(context.getFilesDir().getPath() + "/percentage");
+            FileOutputStream fos2 = context.openFileOutput(file2.getName(), Context.MODE_APPEND);
+            fos2.write(("SELECT: " + (SELECT / 1800) * 100 + "%\n").getBytes());
+            fos2.write(("UPDATE: " + (UPDATE / 1800) * 100 + "%\n").getBytes());
+            fos2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return 0;
     }
 
@@ -58,10 +73,14 @@ public class Queries {
 
         try {
             JSONArray benchmarkArray = workloadJsonObject.getJSONArray("benchmark");
+            SELECT = 0.0;
+            UPDATE = 0.0;
+            //utils.putMarker("{\"EVENT\":\"SELECT_START\"}\n","trace_marker");
             for(int i = 0; i < benchmarkArray.length(); i ++){
                 JSONObject operationJson = benchmarkArray.getJSONObject(i);
                 Object operationObject = operationJson.get("op");
                 String operation = operationObject.toString();
+
                 switch (operation) {
                     case "query": {
                         sqlException = 0;
@@ -71,11 +90,24 @@ public class Queries {
                         try {
 
                             if(query.contains("SELECT")){
+
                                 Cursor cursor = db.rawQuery(query,null);
+                                if(cursor.moveToFirst()) {
+                                    int numColumns = cursor.getColumnCount();
+                                    do {
+                                        for(int j=0; j< numColumns; j++) {
+                                            //String temp = cursor.toString();
+                                        }
+                                        //process cursor
+                                    } while(cursor.moveToNext());
+                                }
                                 cursor.close();
+
+                                SELECT++;
                             }
                             else {
                                 db.execSQL(query);
+                                UPDATE++;
                             }
 
                             File file = new File(context.getFilesDir().getPath() + "/testSQL");
@@ -110,6 +142,9 @@ public class Queries {
                 }
 
             }
+
+            //utils.putMarker("{\"EVENT\":\"SELECT_END\"}\n","trace_marker");
+
         } catch (JSONException e) {
             e.printStackTrace();
             db.close();
@@ -159,6 +194,7 @@ public class Queries {
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);
                             fos.write((query + "\n").getBytes());
                             fos.close();
+
 
                         }
                         catch (SQLiteException e){

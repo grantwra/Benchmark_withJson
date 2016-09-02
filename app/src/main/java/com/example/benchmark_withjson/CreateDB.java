@@ -18,10 +18,10 @@ public class CreateDB {
         context = contextIn;
     }
 
-    public int create(){
+    public int create(int workload){
 
         Utils utils = new Utils();
-        String singleJsonString = utils.jsonToString(context);
+        String singleJsonString = utils.jsonToString(context, workload);
         JSONObject jsonObject = utils.jsonStringToObject(singleJsonString);
         int tester = populateSqlDb(jsonObject);
         if(tester != 0){

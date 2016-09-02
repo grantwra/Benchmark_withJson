@@ -22,14 +22,14 @@ public class Utils {
 
     static JSONObject workloadJsonObject;
 
-    public String jsonToString(Context context){
+    public String jsonToString(Context context, int workload){
 
         String line;
         String finalString = "";
 
         try {
 
-            InputStream is = context.getResources().openRawResource(R.raw.workload_a_timing_a);
+            InputStream is = context.getResources().openRawResource(workload);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             while((line = br.readLine()) != null){

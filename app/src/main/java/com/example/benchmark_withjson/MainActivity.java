@@ -15,11 +15,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final int workload_a_timing_a = R.raw.workload_a_timing_a;
+        final int workload_b_timing_a = R.raw.workload_b_timing_a;
+        final int workload_c_timing_a = R.raw.workload_c_timing_a;
+        final int workload_d_timing_a = R.raw.workload_d_timing_a;
+        final int workload_e_timing_a = R.raw.workload_e_timing_a;
+        final int workload_f_timing_a = R.raw.workload_f_timing_a;
+
         long start = System.currentTimeMillis();
 
         //Create the databases from the JSON
         CreateDB createDB = new CreateDB(this);
-        int tester = createDB.create();
+        int tester = createDB.create(workload_c_timing_a);
         if(tester != 0){
             this.finishAffinity();
         }
@@ -40,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Calculate total time of the traces
         long end = System.currentTimeMillis();
+
         long delta = end - start;
         double elapsedSeconds = delta / 1000.0;
 
@@ -55,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //this.finishAffinity();
-
 
     }
 }
