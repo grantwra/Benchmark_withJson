@@ -112,7 +112,7 @@ sched_switches = np.append(sched_switches,1)
 #ax1.step(sched_timestamps,sched_switches,'k',label='')
 ax1.step(sched_timestamps,sched_timestamps,'k',label='')
 ax1.set_ylim((0,2))
-#ax1.set_ylabel('Number of Writes')
+#ax1.set_ylabel('Number of Writes/Reads')
 
 block_insert_timestamps = np.insert(block_insert_timestamps,0,0)
 block_inserted = np.insert(block_inserted,0,0)
@@ -139,7 +139,7 @@ for key,block_op in sorted(block.items(), key=lambda t:t[1][0]):
 	ax1.vlines(block_op[1],count+0.05,count-0.25,ret_color(op_type),lw='10',label='')
 	count += 1
 
-ax1.set_ylabel('Number of Writes (' + str(count) + ' Total)')
+ax1.set_ylabel('Number of Writes/Reads (' + str(count) + ' Total)')
 handles, labels = ax1.get_legend_handles_labels()
 i = 1 
 while i<len(labels):

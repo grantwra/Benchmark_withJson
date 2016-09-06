@@ -165,4 +165,8 @@ public class Utils {
         return 0;
     }
 
+    public boolean doesDBExist(Context context, String dbPath){
+        File dbFile = context.getDatabasePath(dbPath);
+        return dbFile.exists();
+    }
 }

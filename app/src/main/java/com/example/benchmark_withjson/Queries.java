@@ -95,9 +95,12 @@ public class Queries {
                                 if(cursor.moveToFirst()) {
                                     int numColumns = cursor.getColumnCount();
                                     do {
-                                        for(int j=0; j< numColumns; j++) {
-                                            //String temp = cursor.toString();
+                                        int j=0;
+                                        while (j< numColumns) {
+                                            j++;
                                         }
+                                            //String temp = cursor.toString();
+                                        //}
                                         //process cursor
                                     } while(cursor.moveToNext());
                                 }
