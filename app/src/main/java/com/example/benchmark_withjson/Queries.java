@@ -22,6 +22,8 @@ public class Queries {
     Utils utils;
     Double SELECT;
     Double UPDATE;
+    Double INSERT;
+    Double DELETE;
 
     public Queries(Context inContext){
         utils = new Utils();
@@ -53,16 +55,19 @@ public class Queries {
         utils.putMarker("{\"EVENT\":\"BDB_END\"}", "trace_marker");
         utils.putMarker("END: app finished\n", "trace_marker");
 
+        /*
         try {
             File file2 = new File(context.getFilesDir().getPath() + "/percentage");
             FileOutputStream fos2 = context.openFileOutput(file2.getName(), Context.MODE_APPEND);
             fos2.write(("SELECT: " + (SELECT / 1800) * 100 + "%\n").getBytes());
             fos2.write(("UPDATE: " + (UPDATE / 1800) * 100 + "%\n").getBytes());
+            fos2.write(("INSERT: " + (INSERT / 1800) * 100 + "%\n").getBytes());
+            fos2.write(("DELETE: " + (DELETE / 1800) * 100 + "%\n").getBytes());
             fos2.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+          */
         return 0;
     }
 
@@ -73,8 +78,11 @@ public class Queries {
 
         try {
             JSONArray benchmarkArray = workloadJsonObject.getJSONArray("benchmark");
-            SELECT = 0.0;
+            /*SELECT = 0.0;
             UPDATE = 0.0;
+            INSERT = 0.0;
+            DELETE = 0.0;
+            */
             //utils.putMarker("{\"EVENT\":\"SELECT_START\"}\n","trace_marker");
             for(int i = 0; i < benchmarkArray.length(); i ++){
                 JSONObject operationJson = benchmarkArray.getJSONObject(i);
@@ -106,18 +114,26 @@ public class Queries {
                                 }
                                 cursor.close();
 
-                                SELECT++;
+                                //SELECT++;
                             }
                             else {
                                 db.execSQL(query);
-                                UPDATE++;
+                               /* if(query.contains("UPDATE")) {
+                                    UPDATE++;
+                                }
+                                if(query.contains("INSERT")){
+                                    INSERT++;
+                                }
+                                if(query.contains("DELETE")){
+                                    DELETE++;
+                                }*/
                             }
-
+                            /*
                             File file = new File(context.getFilesDir().getPath() + "/testSQL");
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);
                             fos.write((query + "\n").getBytes());
                             fos.close();
-
+                            */
                         }
                         catch (SQLiteException e){
                             sqlException = 1;
@@ -152,7 +168,7 @@ public class Queries {
             e.printStackTrace();
             db.close();
             return 1;
-        } catch (FileNotFoundException e) {
+        } /*catch (FileNotFoundException e) {
             e.printStackTrace();
             db.close();
             return 1;
@@ -160,7 +176,7 @@ public class Queries {
             e.printStackTrace();
             db.close();
             return 1;
-        }
+        }*/
         db.close();
         return 0;
     }
@@ -192,12 +208,12 @@ public class Queries {
                             if (!test){
                                 throw new SQLiteException();
                             }
-
+                            /*
                             File file = new File(context.getFilesDir().getPath() + "/testBDB");
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);
                             fos.write((query + "\n").getBytes());
                             fos.close();
-
+                            */
 
                         }
                         catch (SQLiteException e){
@@ -240,7 +256,7 @@ public class Queries {
             }
 
             return 1;
-        } catch (FileNotFoundException e) {
+        } /*catch (FileNotFoundException e) {
             e.printStackTrace();
 
             try {
@@ -260,7 +276,7 @@ public class Queries {
             }
 
             return 1;
-        } catch (SQLException e) {
+        } */catch (SQLException e) {
             e.printStackTrace();
             return 1;
         }

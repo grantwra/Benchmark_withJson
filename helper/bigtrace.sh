@@ -11,5 +11,5 @@ do
 	adb -s 063d94d800609564 shell sh /data/preBenchmark.sh #create database 
 	adb -s 063d94d800609564 shell sh /data/benchmark.sh #run queries
 	adb -s 063d94d800609564 pull /data/trace.log
-	mv trace.log 2YCSB_WorkloadA_TimingA.log
+	mv trace.log 2YCSB_WorkloadF_TimingA.log
 done

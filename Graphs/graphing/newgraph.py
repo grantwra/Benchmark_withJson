@@ -134,9 +134,9 @@ for key,block_op in sorted(block.items(), key=lambda t:t[1][0]):
 	#count += 1
 	op_type = block_op_type[key]
 	block_op = np.array(block_op) - float(start_time)*1000
-	ax1.hlines(count,block_op[0],block_op[1],ret_color(op_type),lw='10.5',label=op_type)
+	ax1.hlines(count,block_op[0],block_op[0],ret_color(op_type),lw='10.5',label=op_type)
 	ax1.vlines(block_op[0],count+0.05,count-0.25,ret_color(op_type),lw='10',label='')
-	ax1.vlines(block_op[1],count+0.05,count-0.25,ret_color(op_type),lw='10',label='')
+	ax1.vlines(block_op[0],count+0.05,count-0.25,ret_color(op_type),lw='10',label='')
 	count += 1
 
 ax1.set_ylabel('Number of Writes (' + str(count) + ' Total)')

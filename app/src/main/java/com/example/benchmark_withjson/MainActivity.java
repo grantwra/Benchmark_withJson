@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             //Find what queries were not executed successfully in the SQL or BDB traces
-            int tester2 = utils.findMissingQueries(this);
+            /*int tester2 = utils.findMissingQueries(this);
             if(tester2 != 0){
                 this.finishAffinity();
-            }
+            }*/
 
             //Calculate total time of the traces
             long end = System.currentTimeMillis();
