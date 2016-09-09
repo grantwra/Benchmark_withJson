@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+//import java.io.File;
+//import java.io.FileNotFoundException;
+//import java.io.FileOutputStream;
+//import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,10 +20,10 @@ public class Queries {
     JSONObject workloadJsonObject;
     Context context;
     Utils utils;
-    Double SELECT;
-    Double UPDATE;
-    Double INSERT;
-    Double DELETE;
+    //Double SELECT;
+    //Double UPDATE;
+    //Double INSERT;
+    //Double DELETE;
 
     public Queries(Context inContext){
         utils = new Utils();
@@ -67,7 +67,7 @@ public class Queries {
         } catch (IOException e) {
             e.printStackTrace();
         }
-          */
+        */
         return 0;
     }
 
@@ -78,11 +78,11 @@ public class Queries {
 
         try {
             JSONArray benchmarkArray = workloadJsonObject.getJSONArray("benchmark");
-            /*SELECT = 0.0;
-            UPDATE = 0.0;
-            INSERT = 0.0;
-            DELETE = 0.0;
-            */
+          //  SELECT = 0.0;
+            //UPDATE = 0.0;
+            //INSERT = 0.0;
+            //DELETE = 0.0;
+
             //utils.putMarker("{\"EVENT\":\"SELECT_START\"}\n","trace_marker");
             for(int i = 0; i < benchmarkArray.length(); i ++){
                 JSONObject operationJson = benchmarkArray.getJSONObject(i);
@@ -114,11 +114,12 @@ public class Queries {
                                 }
                                 cursor.close();
 
-                                //SELECT++;
+                               // SELECT++;
                             }
                             else {
                                 db.execSQL(query);
-                               /* if(query.contains("UPDATE")) {
+                                /*
+                                if(query.contains("UPDATE")) {
                                     UPDATE++;
                                 }
                                 if(query.contains("INSERT")){
@@ -256,7 +257,7 @@ public class Queries {
             }
 
             return 1;
-        } /*catch (FileNotFoundException e) {
+        }/* catch (FileNotFoundException e) {
             e.printStackTrace();
 
             try {

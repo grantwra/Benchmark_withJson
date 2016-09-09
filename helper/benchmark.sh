@@ -4,7 +4,7 @@ sleep 15
 sync
 echo 3 > /proc/sys/vm/drop_caches
 
-echo 50000 > $trace_dir/buffer_size_kb
+echo 150000 > $trace_dir/buffer_size_kb
 echo 1 > $trace_dir/events/sched/sched_switch/enable
 echo 1 > $trace_dir/events/block/block_rq_insert/enable
 echo 1 > $trace_dir/events/block/block_rq_complete/enable
@@ -15,6 +15,7 @@ echo 1 > $trace_dir/tracing_on
 #am kill-all
 am start -n com.example.benchmark_withjson/com.example.benchmark_withjson.MainActivity
 #sleep 4000
+sleep 100
 
 echo 0 > $trace_dir/tracing_on
 cat $trace_dir/trace > /data/trace.log
