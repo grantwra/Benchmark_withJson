@@ -3,6 +3,7 @@
 import sys
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.patches as mpatches
 
 filename = sys.argv[1]
 
@@ -62,14 +63,6 @@ N = 1800
 ind = np.arange(N)
 
 fig, ax = plt.subplots()
-#i = 1
-#for time in time_elapsed:
-#	plt.bar(ind,i,int(float(time)*10000),color=ret_color(query_type[i-1]))
-#	i+=1
-
-#height = []
-#for i in range(1,1801):
-#	height.append(i)
 
 count = 0
 time_elapsed2 = []
@@ -79,18 +72,68 @@ for time in time_elapsed:
 
 ax.bar(ind,time_elapsed2,1, alpha = 0.3) #color=ret_color(query_type[i-1]))
 
+color = ''
+count = 0
+for query in query_type:
+	if(count == index):
+		#color.append(ret_color(query))
+		color = ret_color(query)
+	count += 1
+
 if(index > 1000):
-	ax.annotate('Time spent (ms): ' + str(max_time), xy=(index,max_time), xytext=(index-1000, 
-	max_time+1),arrowprops=dict(facecolor='b',shrink=0.05))
+	ax.annotate('Time spent (ms): ' + str(max_time), xy=(index,max_time), 
+	xytext=(index-1000, max_time+1),arrowprops=dict(facecolor=color,shrink=0.05))
 else:
-	ax.annotate('Time spend (ms): ' + str(max_time), xy=(index,max_time), xytext=(index+330, 
-        max_time+1),arrowprops=dict(facecolor='b',shrink=0.05))
+	ax.annotate('Time spend (ms): ' + str(max_time), xy=(index,max_time), 
+	xytext=(index+330, max_time+1),arrowprops=dict(facecolor=color,shrink=0.05))
+
+otherfilename = ''
+if 'SQL' in filename:
+	otherfilename = filename.replace('SQL', 'BDB')
+else:
+	otherfilename = filename.replace('BDB','SQL')
+
+final_string = ''
+with open(filename, 'r') as log:
+	counter = 0
+	for line in log:
+		if(counter == index):
+			final_string += 'Longest query in ' + filename + ':\n'
+			final_string += '	' + line + '\n'
+		counter += 1
+with open(otherfilename, 'r') as log:
+        counter = 0
+        for line in log:
+                if(counter == index):
+			if '0.0:' in line:
+				line = line.replace('0.0:','0.0001:')
+
+                        final_string += 'Compared to query in ' + otherfilename + ':\n'
+                        final_string += '       ' + line + '\n'
+		counter += 1
+
+f = open(filename + '_INFO', 'w')
+f.write(final_string)
+f.close()
+
 
 #plt.suptitle('* ' + worst_query[0])
 plt.xlabel('Number of Queries Ran (' + str(count)  + ' total)')
 plt.ylabel('Length of Query (milliseconds)')
 plt.title(filename)
 #plt.xticks(ind,'')
+#plt.legend()
 
+fig2 = plt.figure()
+
+blue_arrow = mpatches.Patch(color='b', label='Blue arrow: insert')
+yellow_arrow = mpatches.Patch(color='y', label='Yellow arrow: select')
+green_arrow = mpatches.Patch(color='g', label='Green arrow: update')
+handles = [blue_arrow,yellow_arrow,green_arrow]
+
+labels = [h.get_label() for h in handles]
+
+fig.legend(handles=handles,labels=labels)
+plt.close(fig2)
 plt.show()
 
