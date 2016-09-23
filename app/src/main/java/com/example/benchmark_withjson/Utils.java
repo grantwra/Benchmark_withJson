@@ -1,6 +1,9 @@
 package com.example.benchmark_withjson;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.os.Environment;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -89,6 +92,7 @@ public class Utils {
 
         try {
             con = DriverManager.getConnection(url);
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -169,4 +173,58 @@ public class Utils {
         File dbFile = context.getDatabasePath(dbPath);
         return dbFile.exists();
     }
+
+    public long memoryAvailable(Context context){
+        ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        activityManager.getMemoryInfo(mi);
+        //double availableMegs = mi.availMem / 1048576L;
+        //return availableMegs;
+        return mi.availMem;
+    }
+
+    public void restrictHeapTo50(){
+        //noinspection MismatchedReadAndWriteOfArray
+        int a[] = new int[25165824];
+        for(int i = 0; i < 25165824; i++){
+            a[i] = i;
+        }
+    }
+
+    public void restrictHeapTo25(){
+        int temp = 25165824 + 12582912;
+        //noinspection MismatchedReadAndWriteOfArray
+        int a[] = new int[temp];
+        for(int i = 0; i < temp; i++){
+            a[i] = i;
+        }
+    }
+
+    public void restrictHeapTo12_5(){
+        int temp = 25165824 + 12582912 + 6291456;
+        //noinspection MismatchedReadAndWriteOfArray
+        int a[] = new int[temp];
+        for(int i = 0; i < temp; i++){
+            a[i] = i;
+        }
+    }
+
+    public void getMaxHeapAppCanUse(Context context){
+        Runtime rt = Runtime.getRuntime();
+        long maxMemory = rt.maxMemory();
+        File file2 = new File(context.getFilesDir().getPath() + "/max_memory");
+        FileOutputStream fos2;
+        try {
+            fos2 = context.openFileOutput(file2.getName(), Context.MODE_APPEND);
+            fos2.write(("Max memomy app can use : " + maxMemory + "\n").getBytes());
+            fos2.write(("Max kb : " + maxMemory / 1024L + "\n").getBytes());
+            fos2.write(("Max mb : " + maxMemory / 1048576L + "\n").getBytes());
+            fos2.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

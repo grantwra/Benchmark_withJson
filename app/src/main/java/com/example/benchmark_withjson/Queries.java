@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-//import java.io.File;
-//import java.io.FileNotFoundException;
-//import java.io.FileOutputStream;
-//import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -91,6 +91,10 @@ public class Queries {
 
                 switch (operation) {
                     case "query": {
+                        //double startSql;
+                        //double endSql;
+                        //long memBeforeQuery;
+                        //long memAfterQuery;
                         sqlException = 0;
                         Object queryObject = operationJson.get("sql");
                         String query = queryObject.toString();
@@ -99,7 +103,11 @@ public class Queries {
 
                             if(query.contains("SELECT")){
 
+                                //startSql = System.currentTimeMillis();
+                                //memBeforeQuery = utils.memoryAvailable(context);
                                 Cursor cursor = db.rawQuery(query,null);
+                                //memAfterQuery = utils.memoryAvailable(context);
+                                //endSql = System.currentTimeMillis();
                                 if(cursor.moveToFirst()) {
                                     int numColumns = cursor.getColumnCount();
                                     do {
@@ -117,7 +125,11 @@ public class Queries {
                                // SELECT++;
                             }
                             else {
+                                //startSql = System.currentTimeMillis();
+                                //memBeforeQuery = utils.memoryAvailable(context);
                                 db.execSQL(query);
+                                //memAfterQuery = utils.memoryAvailable(context);
+                                //endSql = System.currentTimeMillis();
                                 /*
                                 if(query.contains("UPDATE")) {
                                     UPDATE++;
@@ -130,11 +142,21 @@ public class Queries {
                                 }*/
                             }
                             /*
+                            double delta = endSql - startSql;
+                            double elapsedSeconds = delta / 1000.00000;
                             File file = new File(context.getFilesDir().getPath() + "/testSQL");
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);
-                            fos.write((query + "\n").getBytes());
+                            fos.write((elapsedSeconds + ": " + query + "\n").getBytes());
                             fos.close();
+
+                            File file2 = new File(context.getFilesDir().getPath() + "/MemorySQL");
+                            FileOutputStream fos2;
+                            fos2 = context.openFileOutput(file2.getName(), Context.MODE_APPEND);
+                            fos2.write(("B Available: " + memBeforeQuery + "\n").getBytes());
+                            fos2.write(("B Available: " + memAfterQuery + '\n').getBytes());
+                            fos2.close();
                             */
+
                         }
                         catch (SQLiteException e){
                             sqlException = 1;
@@ -177,7 +199,7 @@ public class Queries {
             e.printStackTrace();
             db.close();
             return 1;
-        }*/
+        } */
         db.close();
         return 0;
     }
@@ -196,6 +218,10 @@ public class Queries {
                 String operation = operationObject.toString();
                 switch (operation) {
                     case "query": {
+                        //double startBdb;
+                        //double endBdb;
+                        //long memBeforeQuery;
+                        //long memAfterQuery;
                         sqlException = 0;
                         Object queryObject = operationJson.get("sql");
                         String query = queryObject.toString();
@@ -203,17 +229,30 @@ public class Queries {
                         try {
 
                             stmt = con.createStatement();
+                            //startBdb = System.currentTimeMillis();
+                            //memBeforeQuery = utils.memoryAvailable(context);
                             Boolean test = stmt.execute(query);
+                            //memAfterQuery = utils.memoryAvailable(context);
+                            //endBdb = System.currentTimeMillis();
                             stmt.close();
 
                             if (!test){
                                 throw new SQLiteException();
                             }
                             /*
+                            double delta = endBdb - startBdb;
+                            double elapsedSeconds = delta / 1000.00000;
                             File file = new File(context.getFilesDir().getPath() + "/testBDB");
                             FileOutputStream fos = context.openFileOutput(file.getName(), Context.MODE_APPEND);
-                            fos.write((query + "\n").getBytes());
+                            fos.write((elapsedSeconds + ": " + query + "\n").getBytes());
                             fos.close();
+
+                            File file2 = new File(context.getFilesDir().getPath() + "/MemoryBDB");
+                            FileOutputStream fos2;
+                            fos2 = context.openFileOutput(file2.getName(), Context.MODE_APPEND);
+                            fos2.write(("B Available: " + memBeforeQuery + "\n").getBytes());
+                            fos2.write(("B Available: " + memAfterQuery + '\n').getBytes());
+                            fos2.close();
                             */
 
                         }
@@ -257,7 +296,7 @@ public class Queries {
             }
 
             return 1;
-        }/* catch (FileNotFoundException e) {
+        } /* catch (FileNotFoundException e) {
             e.printStackTrace();
 
             try {
@@ -277,7 +316,7 @@ public class Queries {
             }
 
             return 1;
-        } */catch (SQLException e) {
+        }*/ catch (SQLException e) {
             e.printStackTrace();
             return 1;
         }

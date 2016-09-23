@@ -20,7 +20,6 @@ def ret_color(query_type):
 		return 'b'
 
 with open(filename, 'r') as log:
-	#f = open('writing', 'w')
 	for line in log:
 		columns = line.split()
 		columns[0] = columns[0].replace(':','')
@@ -28,19 +27,12 @@ with open(filename, 'r') as log:
 			columns[0] = columns[0] + '001'
 		time_elapsed.append(columns[0])
 		query_type.append(columns[1])
-		#f.write(columns[0] + '\n')
-	#f.close()
 
 with open(filename, 'r') as log:
         for line in log:
                 columns = line.split(':')
 		columns[1] = columns[1].replace('\n', '')
                 query_list.append(columns[1])
-
-#f2 = open('writing2','w')
-#for query in query_list:
-#	f2.write(query + '\n')
-#f2.close
 
 max_time = 0
 index = 0
@@ -70,17 +62,16 @@ for time in time_elapsed:
 	time_elapsed2.append(int(float(time)*1000))
 	count+=1
 
-ax.bar(ind,time_elapsed2,1, alpha = 0.3) #color=ret_color(query_type[i-1]))
+ax.bar(ind,time_elapsed2,1, alpha = 0.3)
 
 color = ''
 count = 0
 for query in query_type:
 	if(count == index):
-		#color.append(ret_color(query))
 		color = ret_color(query)
 	count += 1
 
-if(index > 1000):
+if(index > 250):
 	ax.annotate('Time spent (ms): ' + str(max_time), xy=(index,max_time), 
 	xytext=(index-1000, max_time+1),arrowprops=dict(facecolor=color,shrink=0.05))
 else:
@@ -116,13 +107,9 @@ f = open(filename + '_INFO', 'w')
 f.write(final_string)
 f.close()
 
-
-#plt.suptitle('* ' + worst_query[0])
 plt.xlabel('Number of Queries Ran (' + str(count)  + ' total)')
 plt.ylabel('Length of Query (milliseconds)')
 plt.title(filename)
-#plt.xticks(ind,'')
-#plt.legend()
 
 fig2 = plt.figure()
 
