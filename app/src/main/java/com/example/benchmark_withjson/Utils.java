@@ -185,27 +185,29 @@ public class Utils {
 
     public void restrictHeapTo50(){
         //noinspection MismatchedReadAndWriteOfArray
-        int a[] = new int[25165824];
+        MainActivity.a = new int[25165824];
         for(int i = 0; i < 25165824; i++){
-            a[i] = i;
+            MainActivity.a[i] = i;
         }
+        //return a;
     }
 
     public void restrictHeapTo25(){
         int temp = 25165824 + 12582912;
         //noinspection MismatchedReadAndWriteOfArray
-        int a[] = new int[temp];
+        MainActivity.a = new int[temp];
         for(int i = 0; i < temp; i++){
-            a[i] = i;
+            MainActivity.a[i] = i;
         }
+        //return a;
     }
 
     public void restrictHeapTo12_5(){
         int temp = 25165824 + 12582912 + 6291456;
         //noinspection MismatchedReadAndWriteOfArray
-        int a[] = new int[temp];
+        MainActivity.a = new int[temp];
         for(int i = 0; i < temp; i++){
-            a[i] = i;
+            MainActivity.a[i] = i;
         }
     }
 

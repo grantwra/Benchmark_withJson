@@ -2,6 +2,7 @@ package com.example.benchmark_withjson;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.io.File;
@@ -10,7 +11,10 @@ import java.io.IOException;
 import android.app.ActivityManager.*;
 
 
+
+
 public class MainActivity extends AppCompatActivity {
+    static int a[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,25 +25,28 @@ public class MainActivity extends AppCompatActivity {
         //final int workload_b_timing_a = R.raw.workload_b_timing_a;
         //final int workload_c_timing_a = R.raw.workload_c_timing_a;
         //final int workload_d_timing_a = R.raw.workload_d_timing_a;
-        //final int workload_e_timing_a = R.raw.workload_e_timing_a;
+        final int workload_e_timing_a = R.raw.workload_e_timing_a;
         //final int workload_f_timing_a = R.raw.workload_f_timing_a;
-        final int workload_ia_timing_a = R.raw.workload_ia_timing_a;
+        //final int workload_ia_timing_a = R.raw.workload_ia_timing_a;
         //final int workload_ib_timing_a = R.raw.workload_ib_timing_a;
         //final int workload_ic_timing_a = R.raw.workload_ic_timing_a;
         //final int workload_id_timing_a = R.raw.workload_id_timing_a;
 
         Utils utils = new Utils();
 
-        //restricting heap
-        //utils.restrictHeapTo25();
+        //long memNow = utils.memoryAvailable(this);
+
+        //utils.restrictHeapTo12_5();
+
+        //long memafter = utils.memoryAvailable(this);
 
         long start = System.currentTimeMillis();
         int tester;
 
-        if(!utils.doesDBExist(this,"SQLBenchmark")){
+        if(!utils.doesDBExist(this,"BDBBenchmark")){
             //Create the databases from the JSON
             CreateDB createDB = new CreateDB(this);
-            tester = createDB.create(workload_ia_timing_a);
+            tester = createDB.create(workload_e_timing_a);
             if(tester != 0){
                 this.finishAffinity();
             }
@@ -47,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
 
-            String singleJsonString = utils.jsonToString(this, workload_ia_timing_a);
+            String singleJsonString = utils.jsonToString(this, workload_e_timing_a);
             utils.jsonStringToObject(singleJsonString);
 
 
@@ -72,13 +79,23 @@ public class MainActivity extends AppCompatActivity {
             long delta = end - start;
             double elapsedSeconds = delta / 1000.0;
 
+            /*
+            ActivityManager.MemoryInfo mi = new ActivityManager.MemoryInfo();
+            ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+            activityManager.getMemoryInfo(mi);
+            long total = mi.totalMem;
+            */
+
 
             File file = new File(this.getFilesDir().getPath() + "/time");
             FileOutputStream fos;
             try {
                 fos = this.openFileOutput(file.getName(), Context.MODE_APPEND);
                 fos.write((elapsedSeconds + "\n").getBytes());
-                fos.close();
+                //fos.write(("Mem total: " + total + "\n").getBytes());
+                //fos.write(("Mem at start: " + memNow + "\n").getBytes());
+                //fos.write(("Mem after heap allocation: " + memafter + "\n").getBytes());
+                //fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
