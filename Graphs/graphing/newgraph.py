@@ -65,6 +65,7 @@ with open(filename,'r') as log:
 				cumul_time.append(cumulative_time)
 				sched_switches.append(1)	
 		if(pid in line and 'block_rq_insert' in line):
+		#if('block_rq_insert' in line):
 			line = line.strip()
 			columns = line.split()
 			block_insert += 1
