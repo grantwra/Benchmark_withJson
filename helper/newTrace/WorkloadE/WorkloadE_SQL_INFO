@@ -1,0 +1,6 @@
+Longest query in WorkloadE_SQL:
+	0.14: INSERT INTO YCSBDATA(key, DAT_INT_0, DAT_INT_1, DAT_INT_2, DAT_INT_3, DAT_INT_4, DAT_INT_5, DAT_FLT_0, DAT_FLT_1, DAT_STR_0, DAT_STR_1) VALUES (1049, 613154, 598594, 589482, 312614, 377245, 277988, 2.5101, 7.9385, 'finally permanent braids could have ', 'depths except the ironic, close sentiments hag')
+
+Compared to query in WorkloadE_BDB:
+       0.011: INSERT INTO YCSBDATA(key, DAT_INT_0, DAT_INT_1, DAT_INT_2, DAT_INT_3, DAT_INT_4, DAT_INT_5, DAT_FLT_0, DAT_FLT_1, DAT_STR_0, DAT_STR_1) VALUES (1049, 613154, 598594, 589482, 312614, 377245, 277988, 2.5101, 7.9385, 'finally permanent braids could have ', 'depths except the ironic, close sentiments hag')
+

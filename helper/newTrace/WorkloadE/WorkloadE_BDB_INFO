@@ -1,0 +1,6 @@
+Longest query in WorkloadE_BDB:
+	0.209: SELECT * FROM YCSBDATA WHERE key > 89 ORDER BY key ASC LIMIT 80
+
+Compared to query in WorkloadE_SQL:
+       0.001: SELECT * FROM YCSBDATA WHERE key > 89 ORDER BY key ASC LIMIT 80
+
