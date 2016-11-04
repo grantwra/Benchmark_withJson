@@ -1,0 +1,6 @@
+Longest query in WorkloadE_SQL:
+	0.021: INSERT INTO YCSBDATA(key, DAT_INT_0, DAT_INT_1, DAT_INT_2, DAT_INT_3, DAT_INT_4, DAT_INT_5, DAT_FLT_0, DAT_FLT_1, DAT_STR_0, DAT_STR_1) VALUES (1079, 400711, 464018, 303579, 695022, 67655, 209671, 33.8052, 55.9965, 'close, regular instructions sh', 'pinto beans beneath the warthogs might ')
+
+Compared to query in WorkloadE_BDB:
+       0.005: INSERT INTO YCSBDATA(key, DAT_INT_0, DAT_INT_1, DAT_INT_2, DAT_INT_3, DAT_INT_4, DAT_INT_5, DAT_FLT_0, DAT_FLT_1, DAT_STR_0, DAT_STR_1) VALUES (1079, 400711, 464018, 303579, 695022, 67655, 209671, 33.8052, 55.9965, 'close, regular instructions sh', 'pinto beans beneath the warthogs might ')
+
