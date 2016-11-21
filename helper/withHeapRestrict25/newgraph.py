@@ -183,11 +183,11 @@ if 'IB' in sys.argv[1]:
 if 'IC' in sys.argv[1]:
         workload = 'IC'
 
-plt.savefig('YCSB'+ '_' + workload + '_' + sys.argv[2] + '.png')
+plt.savefig('graphs/YCSB'+ '_' + workload + '_' + sys.argv[2] + '.png')
 
 fig1 = plt.gcf()
 #plt.savefig('Workload'+ workload + '_' + sys.argv[2] + '.png')
 plt.show()
-fig1.savefig('YCSB'+ '_' + workload + '_' + sys.argv[2] + '.png')
+fig1.savefig('graphs/YCSB'+ '_' + workload + '_' + sys.argv[2] + '.png')
 
 

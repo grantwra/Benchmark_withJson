@@ -35,7 +35,7 @@ public class Queries {
 
         //int a[] = utils.restrictHeapTo25();
         //int a[] = utils.restrictHeapTo50();
-        utils.restrictHeapTo50();
+        //utils.restrictHeapTo25();
 
         utils.putMarker("{\"EVENT\":\"TESTBENCHMARK\"}", "trace_marker");
 

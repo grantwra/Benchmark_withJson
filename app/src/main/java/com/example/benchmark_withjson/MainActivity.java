@@ -25,11 +25,11 @@ public class MainActivity extends AppCompatActivity {
         //final int workload_b_timing_a = R.raw.workload_b_timing_a;
         //final int workload_c_timing_a = R.raw.workload_c_timing_a;
         //final int workload_d_timing_a = R.raw.workload_d_timing_a;
-        final int workload_e_timing_a = R.raw.workload_e_timing_a;
+        //final int workload_e_timing_a = R.raw.workload_e_timing_a;
         //final int workload_f_timing_a = R.raw.workload_f_timing_a;
         //final int workload_ia_timing_a = R.raw.workload_ia_timing_a;
         //final int workload_ib_timing_a = R.raw.workload_ib_timing_a;
-        //final int workload_ic_timing_a = R.raw.workload_ic_timing_a;
+        final int workload_ic_timing_a = R.raw.workload_ic_timing_a;
         //final int workload_id_timing_a = R.raw.workload_id_timing_a;
 
         Utils utils = new Utils();
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         if(!utils.doesDBExist(this,"BDBBenchmark")){
             //Create the databases from the JSON
             CreateDB createDB = new CreateDB(this);
-            tester = createDB.create(workload_e_timing_a);
+            tester = createDB.create(workload_ic_timing_a);
             if(tester != 0){
                 this.finishAffinity();
             }
@@ -54,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
 
-            String singleJsonString = utils.jsonToString(this, workload_e_timing_a);
+            utils.restrictHeapTo25();
+
+            String singleJsonString = utils.jsonToString(this, workload_ic_timing_a);
             utils.jsonStringToObject(singleJsonString);
 
 
