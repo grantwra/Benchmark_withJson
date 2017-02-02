@@ -55,7 +55,7 @@ public class Queries {
 /*
         utils.putMarker("{\"EVENT\":\"BDB_START\"}", "trace_marker");
 
-        int tester = bdbQueries();
+        tester = bdbQueries();
         if (tester != 0){
             return 1;
         }
